@@ -8,12 +8,12 @@ var userClickedPattern = [];
 // Click event and action 
   $(".btn").click(function(event){
     
-    var userChosenColour = $(this).attr("id"); //event.target.id; <- another way 
+    var userChosenColour = event.target.id; //$(this).attr("id"); <- another way 
     userClickedPattern.push(userChosenColour);
     playSound(userChosenColour);
     console.log(userChosenColour);
     animatePress(userChosenColour);
-    
+  });
   
 
 // Game Sequence 
@@ -40,7 +40,8 @@ function animatePress(currentColour) {
   }, 100);
 
 } ;
-nextSequence()
+nextSequence();
+alert("Game Launch ");
 
 
 
@@ -49,5 +50,3 @@ nextSequence()
 
 
 
-
-// ©2022 https://github.com/lordson-silver
