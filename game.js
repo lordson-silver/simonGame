@@ -1,47 +1,116 @@
 // London AppBrewry 2021 Complete Web Developer
 // JQuery Project
 // User and Game values 
-var buttonColours = ["red", "blue", "green", "yellow"];
-var gamePattern = [];
-var userClickedPattern = [];
+let buttonColours = ["red", "blue", "green", "yellow"];
+let gamePattern = [];
+let userClickedPattern = [];
+let started = false;
+let level = 0;
+
+// if (window.matchMedia("(max-width: 600px)").matches) {
+
+
+
+if($(window).width() <= 600){
+  $("#level-title").text("Press Start to Begin");
+  
+  $("#start").click(function () {
+    if (!started) {
+      $("#level-title").text("Level " + level);
+      nextSequence();
+      started = true;
+    }});
+}
+if($(window).width() >= 600){
+// if (window.matchMedia("min-width: 600px").matches) {
+  $("button").addClass("hidden");
+$(document).keypress(function() {
+  if (!started) {
+    
+    nextSequence();
+    $("#level-title").text("Level " + level);
+    started = true;}
+}); } else {
+  $("button").removeClass("hidden");
+}
+
+// start game function
+
 
 // Click event and action 
-  $(".btn").click(function(event){
+  $(".btn").click(function() {
     
-    var userChosenColour = event.target.id; //$(this).attr("id"); <- another way 
+    var userChosenColour = $(this).attr("id"); //this is the id of the button that was clicked
     userClickedPattern.push(userChosenColour);
     playSound(userChosenColour);
     console.log(userChosenColour);
     animatePress(userChosenColour);
+    checkAnswer(userClickedPattern.length-1);
   });
   
+  // Check if user is correct
+function checkAnswer(currentLevel){
+  if (userClickedPattern[currentLevel] === gamePattern[currentLevel]) {
+    console.log("success");
+    if (userClickedPattern.length === gamePattern.length) {
+      setTimeout(function() {
+        nextSequence();
+      }, 1000);
+    }
+  } else {
+    console.log("wrong");
+    playSound("wrong");
+    $("body").addClass("game-over");
+    setTimeout(function() {
+      $("body").removeClass("game-over");
+    }, 200);
+    $("#level-title").text("Game Over, Restart");
+    startOver();
+  }
+}
+
+  // Start Over Function
+function startOver(){
+  level = 0;
+  gamePattern = [];
+  started = false;
+}
+
 
 // Game Sequence 
 function nextSequence(){
-  
-  var randomNumber = Math.floor(Math.random()*4);
-  var randomChosenColour = buttonColours[randomNumber];
+  userClickedPattern = [];
+
+  if (level <= 20) {
+    let randomNumber = Math.floor(Math.random() * 4);
+    let randomChosenColour = buttonColours[randomNumber];
     gamePattern.push(randomChosenColour);
-    $("#" + randomChosenColour).fadeIn(200).fadeOut(200).fadeIn(200) ;
-  playSound(randomChosenColour);
-} ;
+    $("#" + randomChosenColour).fadeIn(100).fadeOut(100).fadeIn(100);
+    playSound(randomChosenColour);
+    level++;
+    $("#level-title").text("Level " + level);
+  }
+}
+
+
+
 
 // Sound Function 
 function playSound(name){
-var audio = new Audio("sounds/" + name + ".mp3");
+
+let audio = new Audio(`sounds/${name}.mp3`);
   audio.play();
-} ;
+};
 
 // Press Animation 
-function animatePress(currentColour) {
+function animatePress(currentColor) {
+
   $("#" + currentColor).addClass("pressed");
-  setTimeout(function() {
+  setTimeout(function () {
     $("#" + currentColor).removeClass("pressed");
   }, 100);
+}
 
-} ;
-nextSequence();
-alert("Game Launch ");
 
 
 
