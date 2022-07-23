@@ -1,5 +1,7 @@
 # simonGame
 
+![Image of Simon game](simonGame.jpg)
+
 ***
 
 ## Overview
@@ -44,3 +46,8 @@ This project includes:
 ## Want to contribute?
 
 *Feel free to create an issue.*
+### License
+MIT License
+
+(c) Lordson Silver 
+
