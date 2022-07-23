@@ -10,29 +10,26 @@ let level = 0;
 // if (window.matchMedia("(max-width: 600px)").matches) {
 
 
-
-if($(window).width() <= 600){
-  $("#level-title").text("Press Start to Begin");
-  
-  $("#start").click(function () {
+$("#start").click(function () {
     if (!started) {
       $("#level-title").text("Level " + level);
       nextSequence();
       started = true;
     }});
+    // Check if user is on mobile
+if($(window).width() <= 600){
+  $("#level-title").text("Press Start to Begin");
 }
+// Check if user is on PC
 if($(window).width() >= 600){
-// if (window.matchMedia("min-width: 600px").matches) {
-  $("button").addClass("hidden");
 $(document).keypress(function() {
   if (!started) {
     
     nextSequence();
     $("#level-title").text("Level " + level);
     started = true;}
-}); } else {
-  $("button").removeClass("hidden");
-}
+}); 
+} 
 
 // start game function
 
